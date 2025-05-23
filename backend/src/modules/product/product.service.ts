@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(@InjectModel('Product') private autorModel: Model<Product>) { }
+  async create(createProductDto: CreateProductDto) {
+    try {
+      const product = new this.autorModel(createProductDto);
+      return await product.save();
+    }
+    catch (error) {
+      throw new Error('Error creating product');
+    }
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll() {
+     try{
+     const product =  await this.autorModel.find().exec();
+     return product;
+    }
+    catch (error) {
+      throw new Error('Error fetching products');   
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    return this.autorModel.findById(id).exec();
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    return await this.autorModel.findByIdAndUpdate(id, updateProductDto, { new: true }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  remove(id: string) {
+    return this.autorModel.findByIdAndDelete(id).exec();
   }
 }

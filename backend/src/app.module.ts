@@ -11,6 +11,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { OrderModule } from './modules/order/order.module';
 import { FavoriteListModule } from './modules/favorite-list/favorite-list.module';
 import { ReviewModule } from './modules/review/review.module';
+import { AuthorModule } from './modules/author/author.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ReviewModule } from './modules/review/review.module';
     OrderModule,
     FavoriteListModule,
     ReviewModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

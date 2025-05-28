@@ -1,34 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { FavoriteListService } from './favorite-list.service';
 import { CreateFavoriteListDto } from './dto/create-favorite-list.dto';
 import { UpdateFavoriteListDto } from './dto/update-favorite-list.dto';
+import { AuthGuard } from 'src/guards/is-auth/is-auth.guard';
 
 @Controller('favorite-list')
 export class FavoriteListController {
   constructor(private readonly favoriteListService: FavoriteListService) {}
 
   @Post()
-  create(@Body() createFavoriteListDto: CreateFavoriteListDto) {
-    return this.favoriteListService.create(createFavoriteListDto);
+  @UseGuards(AuthGuard)
+  addToFavorite(@Body() productId: string,@Request() req: any) {
+    return this.favoriteListService.addToFavorite(productId, req.userId);
   }
 
   @Get()
-  findAll() {
-    return this.favoriteListService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.favoriteListService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFavoriteListDto: UpdateFavoriteListDto) {
-    return this.favoriteListService.update(+id, updateFavoriteListDto);
+  @UseGuards(AuthGuard)
+  findUserFavorite(@Request()req:any) {
+    return this.favoriteListService.findUserFavorite(req.userId);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.favoriteListService.remove(+id);
+  @UseGuards(AuthGuard)
+  removeFromFavorite(@Body('productId') productId: string, @Request() req: any) {
+    return this.favoriteListService.removeFromFavorite(productId, req.userId);
   }
 }

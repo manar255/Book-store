@@ -6,9 +6,9 @@ export type FavoriteListDocument = HydratedDocument<FavoriteList>;
 
 @Schema()
 export class FavoriteList {
-    @Prop({ required: true, type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: mongoose.Schema.Types.ObjectId;
-    @Prop({ required: true, type: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' } })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     products: mongoose.Schema.Types.ObjectId;
 }
 

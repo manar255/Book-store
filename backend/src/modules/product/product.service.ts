@@ -7,36 +7,33 @@ import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectModel('Product') private autorModel: Model<Product>) { }
+  constructor(@InjectModel('Product') private productModel: Model<Product>) { }
   async create(createProductDto: CreateProductDto) {
-    try {
-      const product = new this.autorModel(createProductDto);
-      return await product.save();
-    }
-    catch (error) {
-      throw new Error('Error creating product');
-    }
+
+    const product = new this.productModel(createProductDto);
+    return await product.save();
+
   }
 
   async findAll() {
-     try{
-     const product =  await this.autorModel.find().exec();
-     return product;
+    try {
+      const product = await this.productModel.find().exec();
+      return product;
     }
     catch (error) {
-      throw new Error('Error fetching products');   
+      throw new Error('Error fetching products');
     };
   }
 
   findOne(id: string) {
-    return this.autorModel.findById(id).exec();
+    return this.productModel.findById(id).exec();
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    return await this.autorModel.findByIdAndUpdate(id, updateProductDto, { new: true }).exec();
+    return await this.productModel.findByIdAndUpdate(id, updateProductDto, { new: true }).exec();
   }
 
   remove(id: string) {
-    return this.autorModel.findByIdAndDelete(id).exec();
+    return this.productModel.findByIdAndDelete(id).exec();
   }
 }

@@ -13,20 +13,19 @@ export class CreateProductDto {
     @IsNotEmpty()
     author: string;
 
-    @IsNumber()
-    @Min(0)
-    price: number;
+    @IsNotEmpty()
+    @IsString()   
+    price: string;
 
-    @IsString()
-    @IsUrl()
+    // @IsString()
     image: string;
 
-    @IsArray()
-    @IsString({ each: true })
-    @IsNotEmpty({ each: true })
+    // @IsArray()
+    // @IsString({ each: true })
+    // @IsNotEmpty({ each: true })
     categoryId: string[];
 
-    @IsInt()
-    @Min(0)
-    stock: number;
+    @IsNotEmpty()
+    @IsString() 
+    stock: string;
 }

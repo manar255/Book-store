@@ -1,14 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator } from '@nestjs/common';
 import { CategoreService } from './categore.service';
 import { CreateCategoreDto } from './dto/create-categore.dto';
 import { UpdateCategoreDto } from './dto/update-categore.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express'
+import { FileUploadInterceptor } from 'src/interceptors/file-upload/file-upload.interceptor';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+
 
 @Controller('categore')
 export class CategoreController {
-  constructor(private readonly categoreService: CategoreService) {}
+  constructor(private readonly categoreService: CategoreService, private readonly cloudinaryService: CloudinaryService) { }
 
   @Post()
-  create(@Body() createCategoreDto: CreateCategoreDto) {
+  @UseInterceptors(FileUploadInterceptor)
+  async create(
+    @Body() createCategoreDto: CreateCategoreDto,
+     @UploadedFile() file: Express.Multer.File,
+    ) {
+   
+    createCategoreDto.image = await this.cloudinaryService.uploadFile(file.path);
     return this.categoreService.create(createCategoreDto);
   }
 

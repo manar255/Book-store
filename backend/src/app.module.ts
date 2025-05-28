@@ -12,6 +12,8 @@ import { OrderModule } from './modules/order/order.module';
 import { FavoriteListModule } from './modules/favorite-list/favorite-list.module';
 import { ReviewModule } from './modules/review/review.module';
 import { AuthorModule } from './modules/author/author.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { UploadFileModule } from './modules/upload-file/upload-file.module';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { AuthorModule } from './modules/author/author.module';
     FavoriteListModule,
     ReviewModule,
     AuthorModule,
+    UploadFileModule
   ],
   controllers: [AppController],
   providers: [AppService],

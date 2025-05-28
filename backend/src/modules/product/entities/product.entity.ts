@@ -15,7 +15,7 @@ export class Product {
     price: number;
     @Prop({ required: true })
     image: string;
-    @Prop({ required: true ,type:[{type:mongoose.Schema.Types.ObjectId,ref:'Category'}]})
+    @Prop({ required: true ,type:[{type:mongoose.Schema.Types.ObjectId,ref:'Category'}], default: [] })
     categoryId: mongoose.Schema.Types.ObjectId[];
     @Prop({ required: true })
     stock: number;
